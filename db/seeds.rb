@@ -9,6 +9,7 @@ it = Department.create!(name: "IT", floor: "Basement")
 
 christina_aguilera = it.employees.create!(name: "Christina Aguilera", level: 2)
 bobby_flay = it.employees.create!(name: "Bobby Flay", level: 3)
+jimmy_fallon = it.employees.create!(name: "Jimmy Fallon", level: 4)
 
 broken_printer = Ticket.create!(subject: "Printers Broken", age: 5)
 dropped_database = Ticket.create!(subject: "Database Dropped", age: 1)
@@ -19,5 +20,6 @@ EmployeeTicket.create!(employee_id: bobby_flay.id, ticket_id: broken_printer.id)
 
 EmployeeTicket.create!(employee_id: christina_aguilera.id, ticket_id: dropped_database.id)
 EmployeeTicket.create!(employee_id: bobby_flay.id, ticket_id: dropped_database.id)
+EmployeeTicket.create!(employee_id: jimmy_fallon.id, ticket_id: dropped_database.id)
 
 EmployeeTicket.create!(employee_id: bobby_flay.id, ticket_id: coffee_filters.id)
