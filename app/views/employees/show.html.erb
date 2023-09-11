@@ -1,10 +1,15 @@
 <h1>Employee: <%= @employee.name %></h1>
+<p>Level: <%= @employee.level %></p>
 <p>Department: <%= @employee.department.name %></p>
 <p>Tickets:<br>
 <% @employee.sort_tickets_by_age.each do |ticket| %>
   <%= ticket.subject %><br>
 <% end %></p>
 <p>Oldest Ticket: <%= @employee.oldest_ticket.subject %></p>
+<p>Other employees sharing tickets:</p>
+<% @employee.unique_employees.each do |employee| %>
+  <p><%= employee.name %> </p>
+<% end %>
 <%= form_with url: "/employees/#{@employee.id}", method: :patch, data: {turbo: false} do |form| %>
   <%= form.label "Add a ticket for this employee" %>
   <%= form.text_field :ticket_id %>
