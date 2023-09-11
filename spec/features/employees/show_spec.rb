@@ -6,6 +6,7 @@ RSpec.describe "Employees Show Page", type: :feature do
 
     @christina_aguilera = @it.employees.create!(name: "Christina Aguilera", level: 2)
     @bobby_flay = @it.employees.create!(name: "Bobby Flay", level: 3)
+    @jimmy_fallon = @it.employees.create!(name: "Jimmy Fallon", level: 4)
     
     @broken_printer = Ticket.create!(subject: "Printers Broken", age: 5)
     @dropped_database = Ticket.create!(subject: "Database Dropped", age: 1)
@@ -20,10 +21,11 @@ RSpec.describe "Employees Show Page", type: :feature do
 
   describe "As a user" do
     describe "When I visit the Employee show page" do
-      it "displays the employee's name, their department, and a list of all of their tickets from oldest to newest. I also see the oldest ticket assigned to the employee listed separately" do
+      it "displays the employee's name, their level, and their department, and I see a list of all of their tickets from oldest to newest. I also see the oldest ticket assigned to the employee listed separately" do
         visit "/employees/#{@bobby_flay.id}"
       
         expect(page).to have_content("Employee: #{@bobby_flay.name}")
+        expect(page).to have_content("Level: #{@bobby_flay.level}")
         expect(page).to have_content("Department: #{@bobby_flay.department.name}")
         expect(page).to have_content("Tickets:")
         expect(@broken_printer.subject).to appear_before(@coffee_filters.subject)
@@ -36,6 +38,14 @@ RSpec.describe "Employees Show Page", type: :feature do
 
         expect(page).to_not have_content(@coffee_filters.subject)
         expect(page).to have_content("Add a ticket for this employee")
+      end
+
+      it "displays a unique list of all the other employees that this employee shares tickets with" do
+        visit "/employees/#{@bobby_flay.id}"
+
+        expect(page).to have_content("Other employees sharing tickets:")
+        expect(page).to have_content("#{@christina_aguilera.name}")
+        expect(page).to_not have_content("#{@jimmy_fallon.name}")
       end
     end
 
